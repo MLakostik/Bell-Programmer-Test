@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Search";
+}
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SearchResults">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group search-term" id="project-search">
+                <label for="ProjectSearch" class="control-label">Search Project</label>
+                <input name="ProjectSearch" class="form-control" />
+            </div>
+
+            <div class="form-group search-term" id="department-search" style="display: none;">
+                <label for="DepartmentSearch" class="control-label">Search Department</label>
+                <select name="DepartmentSearch" class="form-control" id="department-list"></select>
+            </div>
+
+            <div class="form-group search-term" id="datetime-search" style="display: none;">
+                <label for="DateTimeSearch" class="control-label">Search by Date</label>
+                <input type="datetime-local" name="DateTimeSearch" class="form-control" />
+            </div>
+
+            <div class="form-group search-term" id="employee-search" style="display: none;">
+                <label for="EmployeeSearch" class="control-label">Search by Employee</label>
+                <select name="EmployeeSearch" class="form-control" id="employee-list"></select>
+            </div>
+
+            <div class="form-group search-term" id="description-search">
+                <label for="DescriptionSearch" class="control-label">Search Description</label>
+                <input name="DescriptionSearch" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="SearchFilter" class="control-label">Search By</label>
+                <select name="SearchFilter" id="search-filter" class="form-control">
+                    <option value="projectname" selected>Project Name</option>
+                    <option value="department">Department</option>
+                    <option value="datetime">Date & Time</option>
+                    <option value="requestedby">Requested By</option>
+                    <option value="description">Description</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <script>
+            $(document).ready(function () {
+                $.getJSON("../data.json", function (data) {
+
+                    var departmentsListArr = new Array();
+                    for (var item in data.departments) {
+                        $("#employee-list").append(`<option value="${data.departments[item].firstname} ${data.departments[item].lastname}">${data.departments[item].firstname} ${data.departments[item].lastname}</option>`);
+                        departmentsListArr.push(data.departments[item].department);
+                    }
+
+                    departmentsListArr = new Set(departmentsListArr);
+
+                    departmentsListArr.forEach(function (item, index) {
+                        $("#department-list").append(`<option value="${item}">${item}</option>`);
+                    });
+
+                    $("#search-filter").trigger("change");
+
+                }).fail(function () {
+                    console.log("An error has occurred.");
+                });
+            });
+
+            $("#search-filter").on("change", function () {
+                $(".search-term").hide();
+
+                switch ($("#search-filter").val()) {
+                    case "projectname":
+                        $("#project-search").show();
+                        break;
+                    case "department":
+                        $("#department-search").show();
+                        break;
+                    case "datetime":
+                        $("#datetime-search").show();
+                        break;
+                    case "requestedby":
+                        $("#employee-search").show();
+                        break;
+                    case "description":
+                        $("#description-search").show();
+                        break;
+                }
+            });
+        </script>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

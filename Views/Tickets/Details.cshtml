@@ -1,0 +1,48 @@
+﻿@model ITSupportTickets.Models.Ticket
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Details for @Html.DisplayFor(model => model.ProjectName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Project Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+        <dt class = "col-sm-2">
+            Department
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+        <dt class = "col-sm-2">
+            Requested By
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RequestedBy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Submitted
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SubmittedTimeStamp)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">View Tickets</a> | 
+    <a asp-action="Delete" asp-route-id="@Model.Id" style="color: red">Delete</a>
+</div>

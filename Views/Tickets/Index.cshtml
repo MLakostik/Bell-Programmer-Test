@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ITSupportTickets.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h3>Ticket Count: @Model.Count()</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Requested
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Submitted
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.ProjectName)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @item.SubmittedTimeStamp.ToString("yyyy-MM-dd")
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
